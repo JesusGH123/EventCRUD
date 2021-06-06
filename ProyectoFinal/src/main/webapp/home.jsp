@@ -22,10 +22,11 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
         <div class="container">
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="#">Eventos Morelos</a>
             <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
                 &#9776;
             </button>
+            <!--
             <div class="collapse navbar-collapse" id="exCollapsingNavbar">
                 <ul class="nav navbar-nav">
                     <li class="nav-item"><a href="#" class="nav-link">About</a></li>
@@ -33,6 +34,7 @@
                     <li class="nav-item"><a href="#" class="nav-link">Service</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">More</a></li>
                 </ul>
+            -->
                 <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
                     <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
                     <li class="dropdown order-1">
@@ -81,36 +83,33 @@
 
     <!-- List -->
     <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
-        <div class="row d-flex justify-content-start card-strip"> <img class="comp-logo mr-4 mb-3" src="https://i.imgur.com/UNMKFy8.png">
+        <div class="row d-flex justify-content-start card-strip"> <img class="comp-logo mr-4 mb-3" src="https://becasparatodos.com/wp-content/uploads/2016/12/tec-de-monterrey-becas-para-mexicanos.jpg">
             <div class="info">
                 <div class="row px-3 mb-2">
-                    <h4 class="dark-text mr-4">Analise de Sistemas</h4>
-                    <p class="mt-1 mr-4 extended-title">Bacharelado</p>
+                    <h4 class="dark-text mr-4">Carrera Tec</h4>
+                    <p class="mt-1 mr-4 extended-title">Deportivo</p>
                 </div>
                 <div class="row px-3">
-                    <p class="mb-1"><span class="fa fa-clock-o"> Noite</span></p>
-                    <p class="mb-1"><span class="fa fa-home ml-4"> Presencial</span></p>
+                    <p class="mb-1"><span class="fa fa-clock-o"> 20-08-2021 03:00 pm</span></p>
                 </div>
                 <div class="row px-3">
-                    <p><span class="fa fa-clock-o"> Jardim Esplanada - S&o Jose dos Campos</span></p>
+                    <p><span class="fa fa-clock-o">Autopista del Sol KM 104 Col. Real del Puente, Xochitepec Morelos</span></p>
                 </div>
-                <div class="row px-3 mb-3"> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1"></span> <span class="fa fa-star pr-1 mt-1 mr-2"></span> <span><strong>28</strong> avaliagoes</span> </div>
+                <div class="row px-3 mb-3"> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1"></span> <span class="fa fa-star pr-1 mt-1 mr-2"></span> <span><strong>28</strong> asistencias</span> </div>
                 <div class="row px-3">
-                    <h6 class="green-block">Mensalidade de julho gratis</h6>
+                    <h6 class="green-block">Mas información</h6>
                 </div>
             </div>
             <div class="v-line ml-auto"></div>
             <div class="price">
-                <p class="mb-0">Bolsa de</p>
-                <h4 class="blue-text mb-3">50%</h4>
-                <p class="mb-0">Mensalidade</p>
+                <p class="mb-0">Precio</p>
                 <div class="row px-3">
-                    <h4 class="blue-text mr-2">R$ 380,00</h4>
-                    <p class="mt-1 price-fall mr-5"><del>R$ 760,00</del></p>
+                    <h4 class="blue-text mr-2">$150.00</h4>
                 </div>
-                <div class="btn btn-orange mt-4">Detalhes desta bolsa</div>
+                <div class="btn btn-orange mt-4">Asistir</div>
             </div>
         </div>
+        <!--
         <div class="row d-flex justify-content-start card-strip"> <img class="comp-logo mr-4 mb-3" src="https://i.imgur.com/8ScTzSD.jpg">
             <div class="info">
                 <div class="row px-3 mb-2">
@@ -171,6 +170,7 @@
                 <div class="btn btn-orange mt-4">Detalhes desta bolsa</div>
             </div>
         </div>
+        -->
     </div>
 
     <!-- Floating button -->
