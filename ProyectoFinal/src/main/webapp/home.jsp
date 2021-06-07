@@ -36,12 +36,14 @@
                 </ul>
             -->
                 <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-                    <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
+                    <!-- <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li> -->
                     <li class="dropdown order-1">
-                        <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button>
+                        <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle"><li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li></button>
                         <ul class="dropdown-menu dropdown-menu-right mt-2">
                             <li class="px-3 py-2">
-                                <form class="form" role="form">
+                                <div>Username: Mike</div>
+                                <i class="fas fa-sign-out-alt"></i>
+                                <!--<form class="form" role="form">
                                     <div class="form-group">
                                         <input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">
                                     </div>
@@ -54,7 +56,7 @@
                                     <div class="form-group text-center">
                                         <small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>
                                     </div>
-                                </form>
+                                </form>-->
                             </li>
                         </ul>
                     </li>
@@ -83,14 +85,18 @@
 
     <!-- List -->
     <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
-        <div class="row d-flex justify-content-start card-strip"> <img class="comp-logo mr-4 mb-3" src="https://becasparatodos.com/wp-content/uploads/2016/12/tec-de-monterrey-becas-para-mexicanos.jpg">
+        <div class="row d-flex justify-content-start card-strip">
+            <img class="comp-logo mr-4 mb-3" src="https://becasparatodos.com/wp-content/uploads/2016/12/tec-de-monterrey-becas-para-mexicanos.jpg">
             <div class="info">
+
                 <div class="row px-3 mb-2">
+                    <span class="sold_out">Agotado</span>
                     <h4 class="dark-text mr-4">Carrera Tec</h4>
                     <p class="mt-1 mr-4 extended-title">Deportivo</p>
+                    <span class="dot"></span>
                 </div>
                 <div class="row px-3">
-                    <p class="mb-1"><span class="fa fa-clock-o"> 20-08-2021 03:00 pm</span></p>
+                    <p class="mb-1"><span class="fa fa-clock-o"> 20-08-2021 03:00 p.m. - 05:00 p.m.</span></p>
                 </div>
                 <div class="row px-3">
                     <p><span class="fa fa-clock-o">Autopista del Sol KM 104 Col. Real del Puente, Xochitepec Morelos</span></p>
@@ -107,7 +113,43 @@
                     <h4 class="blue-text mr-2">$150.00</h4>
                 </div>
                 <div class="btn btn-orange mt-4">Asistir</div>
+                <i class="btn btn-orange mt-4 fas fa-trash-alt"></i>
+                <i class="btn btn-orange mt-4 fas fa-edit"></i>
             </div>
+
+        </div>
+        <div class="row d-flex justify-content-start card-strip">
+            <img class="comp-logo mr-4 mb-3" src="https://becasparatodos.com/wp-content/uploads/2016/12/tec-de-monterrey-becas-para-mexicanos.jpg">
+            <div class="info">
+
+                <div class="row px-3 mb-2">
+                    <span class="sold_out">Agotado</span>
+                    <h4 class="dark-text mr-4">Carrera Tec</h4>
+                    <p class="mt-1 mr-4 extended-title">Deportivo</p>
+                    <span class="dot"></span>
+                </div>
+                <div class="row px-3">
+                    <p class="mb-1"><span class="fa fa-clock-o"> 20-08-2021 03:00 p.m. - 05:00 p.m.</span></p>
+                </div>
+                <div class="row px-3">
+                    <p><span class="fa fa-clock-o">Autopista del Sol KM 104 Col. Real del Puente, Xochitepec Morelos</span></p>
+                </div>
+                <div class="row px-3 mb-3"> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1 active"></span> <span class="fa fa-star pr-1 mt-1"></span> <span class="fa fa-star pr-1 mt-1 mr-2"></span> <span><strong>28</strong> asistencias</span> </div>
+                <div class="row px-3">
+                    <h6 class="green-block">Mas información</h6>
+                </div>
+            </div>
+            <div class="v-line ml-auto"></div>
+            <div class="price">
+                <p class="mb-0">Precio</p>
+                <div class="row px-3">
+                    <h4 class="blue-text mr-2">$150.00</h4>
+                </div>
+                <div class="btn btn-orange mt-4">Asistir</div>
+                <i class="btn btn-orange mt-4 fas fa-trash-alt"></i>
+                <i class="btn btn-orange mt-4 fas fa-edit"></i>
+            </div>
+
         </div>
         <!--
         <div class="row d-flex justify-content-start card-strip"> <img class="comp-logo mr-4 mb-3" src="https://i.imgur.com/8ScTzSD.jpg">
@@ -180,5 +222,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
