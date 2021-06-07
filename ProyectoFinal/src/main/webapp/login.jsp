@@ -38,19 +38,19 @@
                 </div> -->
             </div>
             <div class="card-body">
-                <form>
+                <form method="POST" action="login">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Usuario">
+                        <input type="text" name="username" class="form-control" placeholder="Usuario">
 
                     </div>
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" class="form-control" placeholder="Contraseña">
+                        <input type="password" name="password" class="form-control" placeholder="Contraseña">
                     </div>
                     <!-- <div class="row align-items-center remember">
                         <input type="checkbox">Remember Me
@@ -73,9 +73,9 @@
                         </c:when>
                     </c:choose>
                 </div>
-                <!-- <div class="d-flex justify-content-center">
-                    <a href="#">Forgot your password?</a>
-                </div> -->
+                <div style="color: white">
+                    <b>${message}</b>
+                </div>
             </div>
         </div>
     </div>
