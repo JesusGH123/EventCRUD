@@ -1,0 +1,55 @@
+body {
+    color: #616161;
+    overflow-x: hidden;
+    height: 100%;
+    background-color: #ECEFF1;
+    background-repeat: no-repeat
+}
+
+.comp-logo {
+    width: 70px;
+    height: 80px
+}
+
+.btn-orange {
+    background-color: #FF9800;
+    color: #fff
+}
+
+.float {
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:40px;
+    right:40px;
+    background-color:#0C9;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+    margin-top:22px;
+}
+
+button:focus {
+    outline: 0;
+}
+
+.navbar .dropdown-menu .form-control {
+    width: 200px;
+}
+
+.table {
+    margin-top: 5rem;
+}
+
+td:nth-of-type(odd) {
+    width: 12rem;
+    padding: 0rem;
+}
+
+td {
+    vertical-align: middle;
+}

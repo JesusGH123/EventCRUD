@@ -40,6 +40,15 @@ async function eventRegister() {
       }catch(error){
           console.log(error)
       }
+}
 
-
+function moreInfo() {
+    Swal.fire({
+        title: 'Carrera Tec',
+        text: 'Carrera organizada por el Tecnológico de Monterrey, opcion de 5 o 10km',
+        imageUrl: 'images/Carrera tec.jpg',
+        imageWidth: 300,
+        imageHeight: 150,
+        imageAlt: 'Imagen de evento',
+    })
 }
