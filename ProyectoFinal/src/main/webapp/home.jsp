@@ -86,44 +86,11 @@
     <!-- List -->
     <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
         <div class="row d-flex justify-content-start card-strip">
-            <img class="comp-logo mr-4 mb-3" src="https://becasparatodos.com/wp-content/uploads/2016/12/tec-de-monterrey-becas-para-mexicanos.jpg">
+            <img class="comp-logo mr-4 mb-3" src="images/Carrera tec.jpg" style="width:150px; height:100px;">
             <div class="info">
 
                 <div class="row px-3 mb-2">
-                    <span class="sold_out">Agotado</span>
-                    <h4 class="dark-text mr-4">Carrera Tec</h4>
-                    <p class="mt-1 mr-4 extended-title">Deportivo</p>
-                    <span class="dot"></span>
-                </div>
-                <div class="row px-3">
-                    <p class="mb-1"><span class="fa fa-clock-o"> 20-08-2021 03:00 p.m. - 05:00 p.m.</span></p>
-                </div>
-                <div class="row px-3">
-                    <p><span class="fa fa-clock-o">Autopista del Sol KM 104 Col. Real del Puente, Xochitepec Morelos</span></p>
-                </div>
-                <strong>28</strong> asistencias
-                <div class="row px-3">
-                    <h6 class="green-block">Mas información</h6>
-                </div>
-            </div>
-            <div class="v-line ml-auto"></div>
-            <div class="price">
-                <p class="mb-0">Precio</p>
-                <div class="row px-3">
-                    <h4 class="blue-text mr-2">$150.00</h4>
-                </div>
-                <div class="btn btn-orange mt-4">Asistir</div>
-                <i class="btn btn-orange mt-4 fas fa-trash-alt"></i>
-                <i class="btn btn-orange mt-4 fas fa-edit"></i>
-            </div>
-
-        </div>
-        <div class="row d-flex justify-content-start card-strip">
-            <img class="comp-logo mr-4 mb-3" src="https://becasparatodos.com/wp-content/uploads/2016/12/tec-de-monterrey-becas-para-mexicanos.jpg">
-            <div class="info">
-
-                <div class="row px-3 mb-2">
-                    <span class="sold_out">Agotado</span>
+                    <!-- <span class="sold_out">Agotado</span> -->
                     <h4 class="dark-text mr-4">Carrera Tec</h4>
                     <p class="mt-1 mr-4 extended-title">Deportivo</p>
                     <span class="dot"></span>

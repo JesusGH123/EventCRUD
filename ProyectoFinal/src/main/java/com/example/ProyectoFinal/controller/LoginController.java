@@ -1,5 +1,8 @@
 package com.example.ProyectoFinal.controller;
 
+import com.example.ProyectoFinal.dao.UserDao;
+import com.example.ProyectoFinal.model.User;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -17,9 +20,18 @@ public class LoginController extends HttpServlet {
         String user = request.getParameter("username");
         String password = request.getParameter("password");
 
-        //Mejorar validacion del correo y contraseña
-        if(user.equals("123") && password.equals("123")) {
-            // Verificar si el usuario existe
+        //Form validations
+        if(!user.equals("") && !password.equals("")) {
+            UserDao userDao = new UserDao();
+            User userVal = userDao.getUser(user, password);
+
+            //DB validation
+            if(userVal != null) {
+                response.sendRedirect("home.jsp");
+            } else {
+                request.setAttribute("message", "Error al iniciar sesión. Usuario o contraseña inexistentes");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
         } else {
             request.setAttribute("message", "Usuario o contraseña incorrecta");
             request.getRequestDispatcher("login.jsp").forward(request, response);
