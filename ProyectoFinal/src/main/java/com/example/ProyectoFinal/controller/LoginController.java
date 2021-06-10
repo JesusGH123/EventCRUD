@@ -27,6 +27,9 @@ public class LoginController extends HttpServlet {
 
             //DB validation
             if(userVal != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("username",user);
+                //change to controller redirect
                 response.sendRedirect("home.jsp");
             } else {
                 request.setAttribute("message", "Error al iniciar sesión. Usuario o contraseña inexistentes");
