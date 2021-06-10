@@ -2,23 +2,21 @@ package com.example.ProyectoFinal.dao;
 
 import com.example.ProyectoFinal.model.User;
 import com.example.ProyectoFinal.utility.MySQLConnection;
-import com.mysql.cj.protocol.Resultset;
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class UserDao implements IUserDao{
-    final String getUser = "SELECT * FROM User WHERE user_id = ? AND password = ?";
+    final String GET_USER_And_ADMIN_INFO = "call get_user_id_and_admin_info ( ? , ? )";
     @Override
     public User getUser(String user, String password) {
 
-        User userResult = null;
+        User userResult=null;
 
         try {
             Connection connection = MySQLConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(getUser);
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_And_ADMIN_INFO);
             preparedStatement.setString(1, user);
             preparedStatement.setString(2, password);
 
@@ -26,12 +24,10 @@ public class UserDao implements IUserDao{
 
             if(resultset.next()) {
                 userResult = new User();
-
                 userResult.setUser_id(resultset.getInt("user_id"));
-                userResult.setUsername(resultset.getString("username"));
+                userResult.setUsername(user);
                 userResult.setAdmin(resultset.getBoolean("is_admin"));
-                userResult.setPassword(resultset.getString("password"));
-
+                userResult.setPassword(password);
                 return userResult;
             }
         } catch(Exception ex) {

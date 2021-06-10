@@ -30,11 +30,11 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect("home.jsp");
             } else {
                 request.setAttribute("message", "Error al iniciar sesión. Usuario o contraseña inexistentes");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.getRequestDispatcher("login.jsp?auth_type=1").forward(request, response);
             }
         } else {
             request.setAttribute("message", "Usuario o contraseña incorrecta");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("login.jsp?auth_type=1").forward(request, response);
         }
     }
 }
