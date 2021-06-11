@@ -1,22 +1,93 @@
 package com.example.ProyectoFinal.dao;
 
 import com.example.ProyectoFinal.model.Event;
+import com.example.ProyectoFinal.utility.MySQLConnection;
 
+import javax.xml.transform.Result;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventDao implements IEventDao {
     private final String SAVE_EVENT = "call create_event(?,?,?,?,?,?)"
             ,GET_ALL_EVENTS = "call get_all_events()"
-            ,DELETE_EVENT =""
-            ,UPDATE_EVENT = ""
+            ,DELETE_EVENT ="call delete_event(?)"
+            ,UPDATE_EVENT = "call update_event(?,?,?,?,?,?,?)"
+
+            ,SAVE_ATTENDANCE_LIMIT = "call create_event_attendance_limit(?,?)"
+
+
+            ,SAVE_EVENT_IMAGE = "call create_event_image(?,?,?,?,?)";
     @Override
-    public Event saveEvent(Event even) {
-        return null;
+    public Event saveEvent(Event event) {
+        try{
+            Connection connection = MySQLConnection.getConnection();
+
+            //insert in Event Table
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SAVE_EVENT, Statement.RETURN_GENERATED_KEYS);
+            //preparedStatement.setInt(1,event.getEvent_id());
+            preparedStatement.setString(1,event.getTitle());
+            preparedStatement.setString(2,event.getDescription());
+            preparedStatement.setString(3,event.getCategory());
+            preparedStatement.setTimestamp(4,new Timestamp(event.getBegin_date().getTime()));
+            preparedStatement.setTimestamp(5,new Timestamp(event.getEnd_date().getTime()));
+            preparedStatement.setFloat(6,event.getPrice());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            int event_id = resultSet.getInt(1);
+
+            if(event.getAttendance_limit()!=0) {
+                //insert in Event Limit Table
+
+                preparedStatement = connection.prepareStatement(SAVE_ATTENDANCE_LIMIT);
+                preparedStatement.setInt(1, event_id);
+                preparedStatement.setInt(2, event.getAttendance_limit());
+            }
+
+            if(event.getImage()!=null) {
+                ///insert in Event Image Table
+                preparedStatement = connection.prepareStatement(SAVE_EVENT_IMAGE);
+                preparedStatement.setInt(1, event_id);
+                Event.EventImage event_image = event.getImage();
+                preparedStatement.setString(2, event_image.getName());
+                preparedStatement.setString(3, event_image.getType());
+                preparedStatement.setDouble(4, event_image.getSize());
+                preparedStatement.setBinaryStream(5, event_image.getContent());
+                preparedStatement.executeUpdate();
+            }
+
+            event.setEvent_id(event_id);
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return event;
     }
 
     @Override
     public List<Event> getEvents() {
-        return null;
+        List<Event> events = new ArrayList();
+        try{
+            Connection connection = MySQLConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_EVENTS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                Event event = new Event();
+                event.setEnd_date(resultSet.getTimestamp("end_date"));
+                event.setBegin_date(resultSet.getTimestamp("begin_date"));
+                event.setPrice(resultSet.getFloat("price"));
+                event.setCategory(resultSet.getString("category"));
+                event.setDescription(resultSet.getString("description"));
+                event.setEvent_id(resultSet.getInt("event_id"));
+                event.setTitle(resultSet.getString("title"));
+                events.add(event);
+            }
+            ///add more queries later for extra event data
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return events;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class LoginController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("username",user);
                 //change to controller redirect
-                response.sendRedirect("home.jsp");
+                response.sendRedirect("event");
             } else {
                 request.setAttribute("message", "Error al iniciar sesión. Usuario o contraseña inexistentes");
                 request.getRequestDispatcher("login.jsp?auth_type=1").forward(request, response);
