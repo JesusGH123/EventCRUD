@@ -98,7 +98,7 @@
                     <div class="row px-3 mb-2">
                         <!-- <span class="sold_out">Agotado</span> -->
                         <h4 class="dark-text mr-4">${event.title}</h4>
-                        <p class="mt-1 mr-4 extended-title">Deportivo</p>
+                        <p class="mt-1 mr-4 extended-title">${event.category}</p>
                         <span class="dot"></span>
                     </div>
                     <div class="row px-3">
@@ -109,7 +109,7 @@
                     </div>
                     <strong>28</strong> asistencias
                     <div class="row px-3">
-                        <h6 class="green-block" onclick="moreInfo()">Mas información</h6>
+                        <h6 class="green-block" onclick="moreInfo('${event.title}','${event.description}')">Mas información</h6>
                     </div>
                 </div>
                 <div class="v-line ml-auto"></div>
@@ -119,8 +119,9 @@
                         <h4 class="blue-text mr-2">$${event.price}</h4>
                     </div>
                     <div class="btn btn-orange mt-4">Asistir</div>
-                    <i class="btn btn-orange mt-4 fas fa-trash-alt" onclick="deleteEvent()"></i>
-                    <i class="btn btn-orange mt-4 fas fa-edit" onclick="eventRegister()"></i>
+                    <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>
+                    <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
+                        ${event.event_id}
                 </div>
 
             </div>
@@ -128,14 +129,13 @@
     </div>
 
     <!-- Floating button -->
-    <a href="#" class="float" onclick="eventRegister()">
+    <a href="#" class="float" id ="add_button">
         <i class="fa fa-plus my-float"></i>
     </a>
-
-    <script src="home.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="home.js"></script>
 </body>
 </html>
