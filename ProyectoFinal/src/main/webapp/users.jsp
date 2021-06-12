@@ -89,27 +89,11 @@
                 <td scope="row">${i.index + 1}</td>
                 <td><i class="fas fa-user"></i>${user.username}</td>
                 <td>
-                    <i class="btn btn-orange mt-4 fas fa-trash-alt"></i>
-                    <i class="btn btn-orange mt-4 fas fa-edit"></i>
+                    <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${user.user_id}"></i>
+                    <i class="btn btn-orange mt-4 fas fa-edit" data-id=${user.user_id}></i>
                 </td>
             </tr>
         </c:forEach>
-        <%--<tr>
-            <td scope="row">2</td>
-            <td><i class="fas fa-user"></i> Jacob</td>
-            <td>
-                <i class="btn btn-orange mt-4 fas fa-trash-alt"></i>
-                <i class="btn btn-orange mt-4 fas fa-edit" onclick=""></i>
-            </td>
-        </tr>
-        <tr>
-            <td scope="row">3</td>
-            <td><i class="fas fa-user"></i> Larry</td>
-            <td>
-                <i class="btn btn-orange mt-4 fas fa-trash-alt"></i>
-                <i class="btn btn-orange mt-4 fas fa-edit" onclick=""></i>
-            </td>
-        </tr>--%>
         </tbody>
     </table>
 </div>
