@@ -1,55 +1,132 @@
-async function eventRegister() {
-      try {
-          let result = await Swal.fire({
-              title: 'Evento',
-              html:
-                  '<form id="event_form">' +
-                  '<label for="eventName">Nombre del evento</label>' +
-                  '<input id="eventName" name="eventName" type="text"/>' +
-                  '<label for "eventDescription">Descripción del evento </label>' +
-                  '<input id="eventDescription" name="eventDescription" type="textArea"/>' +
-                  '<label for="eventCategory">Categoría</label>' +
-                  '<select name="eventCategory" id="eventCategory">' +
-                  '<option value="s">Social</option>' +
-                  '<option value="c">Cultural</option>' +
-                  '<option value="d">Deportivo</option>' +
-                  '<option value="a">Artístico</option>' +
-                  '<option value="r">Recreativo</option>' +
-                  '</select>' +
-                  '<div><label for="eventStartDay">Fecha de inicio evento</label>' +
-                  '<input type="date" id="eventStartDay" name="eventStartDay" value="2018-07-22" min="2021-06-12" max="2022-06-12"></div>' +
-                  '<div><label for="eventStartHour">Hora inicio del evento</label>' +
-                  '<input id="eventStartHour" name="eventStartHour" type="time"></div>' +
-                  '<div><label for="eventEndDay">Fecha de cierre del evento</label>' +
-                  '<input type="date" id="eventEndDay" name="eventEndDay" value="2018-07-22" min="2021-06-12" max="2022-06-12"></div>' +
-                  '<div><label for="eventEndHour">Hora de cierre del evento</label>' +
-                  '<input id="eventEndHour" type="time" name="eventEndHour"></div>' +
-                  '<label for="eventPrice">Precio del evento</label>' +
-                  '<input id="eventPrice" type="number" name="eventPrice">' +
-                  '<div><label for="eventImage">Imagen de evento</label>' +
-                  '<input id="eventImage" name="eventImage" type="file"></div>'
-                  + '</form>',
+document.addEventListener("DOMContentLoaded",()=> {
+    let save_update = async (event) => {
+        console.log(event.target.getAttribute('data-id'))
+        let event_id =  event.target.getAttribute('data-id');
+        console.log('save_update'+event.target)
+        try {
+            //return
+            //console.log(`event:  ${event}`)
+            //return
+            //console.log(event_id)
+            //console.log(`event_id: ${event_id}`)
+            let formData = new FormData();
+            let event = undefined
+            if (event_id) {
+                console.log(`event_id: ${event_id}`)
+                formData.append("type", "single");
+                formData.append("event_id", event_id);
+                for (var pair of formData.entries()) {
+                    console.log(pair[0]+ ', ' + pair[1]);
+                }
+                event = await (await fetch('event', {
+                    method: 'POST'
+                    , body: formData
+                })).json();
+                //console.log(`event: ${event}`)
+            }
+            console.log(`event: ${event}`)
+            if(event_id) {
+                console.log(event.begin_date)
+                begin_datetime = new Date(event.begin_date).toISOString().slice(0, 19).replace('T', ' ')
+                begin_datetime_tokens = begin_datetime.split(' ')
+                begin_date = begin_datetime_tokens[0]
+                begin_time = event.begin_date.split(',')[2]
+                console.log(begin_time.length)
+                if(begin_time.length===11)
+                    begin_time = '0'+begin_time.substr(1)
+                end_datetime = new Date(event.end_date).toISOString().slice(0, 19).replace('T', ' ')
+                end_datetime_tokens = end_datetime.split(' ')
+                end_date = end_datetime_tokens[0]
+                end_time = event.end_date.split(',')[2]
+                if(end_time.length === 11)
+                    end_time='0'+end_time.substr(1)
+                console.log(begin_datetime)
+                console.log(begin_time)
+            }
 
-              showCancelButton: true
-          });
-          let formData = new FormData(document.getElementById("event_form"));
-          let post_result = await fetch('event',{
-              method:'POST'
-              ,body:formData
-          });
-          console.log(await post_result.json());
-          //console.log(formData)
-          //console.log(formData.get('eventPrice'))
+            result = await Swal.fire({
+                title: 'Evento',
+                html:
+                    '<form id="event_form">' +
+                    `<label for="eventName" >Nombre del evento</label>` +
+                    `<input id="eventName" name="eventName" ${event ? `value=${event.title}` : ""} type="text"/>` +
+                    '<label for "eventDescription">Descripción del evento </label>' +
+                    `<input id="eventDescription" name="eventDescription" ${event ? `value=${event.description}`:""} type="textArea"/>` +
+                    '<label for="eventCategory">Categoría</label>' +
+                    `<select name="eventCategory" id="eventCategory">` +
+                    `<option value="Social" ${event&&event.category === "Social" ? "selected='selected'":""}>Social</option>` +
+                    `<option value="Cultural"  ${event&&event.category === "Cultural" ? "selected='selected'":""}>Cultural</option>` +
+                    `<option value="Deportivo"  ${event&&event.category === "Deportivo" ? "selected='selected'":""}>Deportivo</option>` +
+                    `<option value="Artístico"  ${event&&event.category === "Artistico" ? "selected='selected'":""}>Artístico</option>` +
+                    `<option value="Recreativo"  ${event&&event.category === "Recreativo" ? "selected='selected'":""}>Recreativo</option>` +
+                    '</select>' +
+                    '<div><label for="eventStartDay">Fecha de inicio evento</label>' +
+                    `<input type="date" id="eventStartDay" name="eventStartDay" ${event ? `value=${begin_date}`:""} min="2021-06-12" max="2022-06-12"></div>` +
+                    '<div><label for="eventStartHour">Hora inicio del evento</label>' +
+                    `<input id="eventStartHour" name="eventStartHour" type="time" ${event ? `value=${begin_time}`:""}></div>` +
+                    '<div><label for="eventEndDay">Fecha de cierre del evento</label>' +
+                    `<input type="date" id="eventEndDay" name="eventEndDay" ${event? `value=${end_date}`:""} value="2018-07-22" min="2021-06-12" max="2022-06-12"></div>` +
+                    '<div><label for="eventEndHour">Hora de cierre del evento</label>' +
+                    `<input id="eventEndHour" type="time" name="eventEndHour" ${event?`value=${end_time}`:""}></div>` +
+                    '<label for="eventPrice">Precio del evento</label>' +
+                    `<input id="eventPrice" type="number" name="eventPrice" ${event ?`value=${event.price}`:""}>` +
+                    '<div><label for="eventImage">Imagen de evento</label>' +
+                    '<input id="eventImage" name="eventImage" type="file"></div>'
+                    + '</form>',
 
-      }catch(error){
-          console.log(error)
-      }
-}
+                showCancelButton: true
+            });
+            console.log(`event_id:${event_id}`)
+            formData = new FormData(document.getElementById("event_form"));
+            let method = !event_id ? 'POST' : 'PUT';
+            console.log(`method: ${method}`);
+            if (event_id)
+                formData.append("event_id", event_id);
+            let post_result = await fetch('event', {
+                method: method
+                , body: formData
+            });
+            console.log(await post_result.json());
+            //console.log(formData)
+            //console.log(formData.get('eventPrice'))
 
-function moreInfo() {
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    document.querySelectorAll(".fa-edit").forEach(element => element.addEventListener("click", save_update));
+    console.log(document.getElementById("add_button"));
+    document.getElementById("add_button").addEventListener("click", save_update);
+    document.querySelectorAll(".fa-trash-alt").forEach(element => {
+        element.addEventListener("click", (event) => {
+            Swal.fire({
+                icon: 'error',
+                title: '¿Estás seguro de borrar el evento?',
+                //showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: `¡Evento Borrarado Exitosamente!`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    let formData = new FormData();
+                    let event_id = event.target.getAttribute('data-id');
+                    formData.append('event_id', event_id);
+                    fetch('event', {
+                        method: 'DELETE'
+                        , body: formData
+                    }).then(response => response.json())
+                        .then(response => Swal.fire(response.message, '', 'success'))
+                        .catch(error => console.log(error))
+                } else if (result.isDenied) {
+                }
+            })
+        })
+    });
+});
+function moreInfo(title,description) {
     Swal.fire({
-        title: 'Carrera Tec',
-        text: 'Carrera organizada por el Tecnológico de Monterrey, opcion de 5 o 10km',
+        title: title,
+        text: description,
         imageUrl: 'images/Carrera tec.jpg',
         imageWidth: 300,
         imageHeight: 150,
@@ -57,18 +134,3 @@ function moreInfo() {
     })
 }
 
-function deleteEvent(){
-    Swal.fire({
-        icon: 'error',
-        title: '¿Estás seguro de borrar el evento?',
-        //showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: `¡Evento Borrarado Exitosamente!`,
-    }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-            Swal.fire('Deleted!', '', 'success')
-        } else if (result.isDenied) {
-        }
-    })
-}

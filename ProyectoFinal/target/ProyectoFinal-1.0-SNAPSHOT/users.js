@@ -42,11 +42,14 @@ function deleteUser() {
                 body: { id: deleteId }
             }).then(
                 response => {
-                    response.json();
-                    location.reload();
+                    //response.json();
                     console.log(response);
                 }
             );
         })
     })
+}
+
+function updateUser() {
+
 }
