@@ -17,11 +17,14 @@ public class EventDao implements IEventDao {
             ,SAVE_ATTENDANCE_LIMIT = "call create_event_attendance_limit(?,?)"
 
 
-            ,SAVE_EVENT_IMAGE = "call create_event_image(?,?,?,?,?)"
+            //,SAVE_EVENT_IMAGE = "call create_event_image(?,?,?,?,?)"
+            //,GET_EVENT_IMAGE = "call get_event_image(?)"
 
             ,UPDATE_EVENT = "call update_event(?,?,?,?,?,?,?)"
             ,UPDATE_ATTENDANCE_LIMIT="call update update_event_attendance_limit(?,?)"
-            ,UPDATE_EVENT_IMAGE="call update_event_image(?,?,?,?,?)";
+            ,UPDATE_EVENT_IMAGE="call update_event_image(?,?,?,?,?)"
+
+            ,ATTENDANCE_CHANGE = "CALL attendance_change(?,?,?)";
     @Override
     public Event saveEvent(Event event) {
         try{
@@ -47,18 +50,6 @@ public class EventDao implements IEventDao {
                 preparedStatement = connection.prepareStatement(SAVE_ATTENDANCE_LIMIT);
                 preparedStatement.setInt(1, event_id);
                 preparedStatement.setInt(2, event.getAttendance_limit());
-                preparedStatement.executeUpdate(); //not sure!
-            }
-
-            if(event.getImage()!=null) {
-                ///insert in Event Image Table
-                preparedStatement = connection.prepareStatement(SAVE_EVENT_IMAGE);
-                preparedStatement.setInt(1, event_id);
-                Event.EventImage event_image = event.getImage();
-                preparedStatement.setString(2, event_image.getName());
-                preparedStatement.setString(3, event_image.getType());
-                preparedStatement.setDouble(4, event_image.getSize());
-                preparedStatement.setBinaryStream(5, event_image.getContent());
                 preparedStatement.executeUpdate(); //not sure!
             }
 
@@ -88,7 +79,6 @@ public class EventDao implements IEventDao {
                 event.setTitle(resultSet.getString("title"));
                 events.add(event);
             }
-            ///add more queries later for extra event data
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -165,7 +155,7 @@ public class EventDao implements IEventDao {
                 System.out.println(affected_rows);
             }
 
-            if(event.getImage()!=null) {
+            /*if(event.getImage()!=null) {
                 ///insert in Event Image Table
                 preparedStatement = connection.prepareStatement(UPDATE_EVENT_IMAGE);
                 preparedStatement.setInt(1, event_id);
@@ -173,14 +163,29 @@ public class EventDao implements IEventDao {
                 preparedStatement.setString(2, event_image.getName());
                 preparedStatement.setString(3, event_image.getType());
                 preparedStatement.setDouble(4, event_image.getSize());
-                preparedStatement.setBinaryStream(5, event_image.getContent());
+                preparedStatement.setString(5, event_image.getContent());
                 affected_rows = preparedStatement.executeUpdate();
                 if(affected_rows==0)
                     return false;
                 System.out.println(affected_rows);
-            }
+            }*/
             return true;
 
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean changeAttendance(int user_id, int event_id, boolean is_attending) {
+        try{
+            Connection connection = MySQLConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(ATTENDANCE_CHANGE);
+            preparedStatement.setInt(1,user_id);
+            preparedStatement.setInt(2,event_id);
+            preparedStatement.setBoolean(3,is_attending);
+            return preparedStatement.executeUpdate() > 0;
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

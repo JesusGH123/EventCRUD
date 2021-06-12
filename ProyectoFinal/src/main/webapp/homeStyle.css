@@ -120,13 +120,29 @@ button:focus {
     margin-left: 0;
     margin-bottom: 0;
 }
-.dot {
+.yellow-dot{
+    height: 25px;
+    width: 25px;
+    background-color: yellow;
+    border-radius: 50%;
+    display: inline-block;
+    animation: blinker 1.0s linear infinite;
+}
+.green-dot {
     height: 25px;
     width: 25px;
     background-color: lawngreen;
     border-radius: 50%;
+    border-radius: 50%;
     display: inline-block;
-    animation: blinker 1.5s linear infinite;
+    animation: blinker 2.5s linear infinite;
+}
+.red-dot{
+    height: 25px;
+    width: 25px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
 }
 
 .sold_out {

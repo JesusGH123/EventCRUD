@@ -1,78 +1,24 @@
 package com.example.ProyectoFinal.model;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Base64;
 
 public class Event implements Serializable {
-    public static class EventImage implements Serializable{
-        private int event_id;
-        private String name,type;
-        private double  size;
-        private InputStream content;
-
-        public EventImage(){}
-
-        public EventImage(int event_id, String name, String type, double size, InputStream content) {
-            this.event_id = event_id;
-            this.name = name;
-            this.type = type;
-            this.size = size;
-            this.content = content;
-        }
-
-        public int getEvent_id() {
-            return event_id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public double getSize() {
-            return size;
-        }
-
-        public InputStream getContent() {
-            return content;
-        }
-
-        public void setEvent_id(int event_id) {
-            this.event_id = event_id;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public void setSize(double size) {
-            this.size = size;
-        }
-
-        public void setContent(InputStream content) {
-            this.content = content;
-        }
-    }
-
     private int event_id,attendance_limit;
     private String title, description, category;
     private Timestamp begin_date, end_date;
     private float price;
-    private EventImage image;
 
     public Event() {
 
     }
-    public Event(String title, String description, String category, Timestamp begin_date, Timestamp end_date, float price, int attendance_limit,EventImage image) {
+    public Event(String title, String description, String category, Timestamp begin_date, Timestamp end_date, float price, int attendance_limit) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -80,7 +26,6 @@ public class Event implements Serializable {
         this.end_date = end_date;
         this.price = price;
         this.attendance_limit = attendance_limit;
-        this.image = image;
     }
 
     public int getEvent_id() {
@@ -130,12 +75,6 @@ public class Event implements Serializable {
     }
     public void setAttendance_limit(int attendance_limit) {
         this.attendance_limit = attendance_limit;
-    }
-    public EventImage getImage(){
-        return image;
-    }
-    public void setImage(EventImage image){
-        this.image = image;
     }
 
     @Override

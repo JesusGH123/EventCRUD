@@ -10,5 +10,6 @@ public interface IEventDao {
     Event getEvent(int event_id);
     boolean deleteEvent(int eventId);
     boolean updateEvent(Event event);
+    boolean changeAttendance(int user_id,int event_id,boolean is_attending);
 
 }

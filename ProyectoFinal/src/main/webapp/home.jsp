@@ -91,22 +91,17 @@
     <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
         <c:forEach items="${events}" var="event" varStatus="loop">
             <div class="row d-flex justify-content-start card-strip">
-                <img class="comp-logo mr-4 mb-3" src="https://digieduhack.com/media/com_reditem/images/customfield/item/2523/4d4dc7ed5084c7e41458822632168118b70e7dd4.png">
                 <div class="info">
 
                     <div class="row px-3 mb-2">
                         <!-- <span class="sold_out">Agotado</span> -->
-                        <h4 class="dark-text mr-4">${event.title}</h4>
-                        <p class="mt-1 mr-4 extended-title">${event.category}</p>
-                        <span class="dot"></span>
+                        <h4 class="dark-text mr-4" id="title_${event.event_id}">${event.title}</h4>
+                        <p class="mt-1 mr-4 extended-title" id="category_${event.event_id}">${event.category}</p>
+                        <span id="status_dot_${event.event_id}"></span>
                     </div>
                     <div class="row px-3">
-                        <p class="mb-1"><span class="fa fa-clock-o"> ${event.begin_date} - ${event.end_date}</span></p>
+                        <p class="mb-1"><span class="fa fa-clock-o" id="dates_${event.event_id}"> ${event.begin_date} - ${event.end_date}</span></p>
                     </div>
-                    <div class="row px-3">
-                        <p><span class="fa fa-clock-o">Autopista del Sol KM 104 Col. Real del Puente, Xochitepec Morelos</span></p>
-                    </div>
-                    <strong>28</strong> asistencias
                     <div class="row px-3">
                         <h6 class="green-block" onclick="moreInfo('${event.title}','${event.description}')">Mas información</h6>
                     </div>
@@ -117,10 +112,8 @@
                     <div class="row px-3">
                         <h4 class="blue-text mr-2">$${event.price}</h4>
                     </div>
-                    <div class="btn btn-orange mt-4">Asistir</div>
                     <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>
                     <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
-                        ${event.event_id}
                 </div>
 
             </div>

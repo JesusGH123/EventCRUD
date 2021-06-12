@@ -44,7 +44,25 @@ public class EventController extends HttpServlet {
             response.setContentType("application/json");
             PrintWriter out = response.getWriter();
             out.print(gson.toJson(event));
-        }else{
+
+        }else if (request.getParameter("type")!=null && request.getParameter("type").equals("change_assistance")){
+            int event_id =  request.getParameter("event_id") == null ? 0 : Integer.parseInt(request.getParameter("event_id"))
+                    ,user_id = request.getParameter("user_id") == null ? 0 : Integer.parseInt(request.getParameter("user_id"));
+            boolean is_attending = request.getParameter("is_attending") == null ? false : Boolean.parseBoolean("is_attending");
+            boolean changed =  event_dao.changeAttendance(user_id,event_id,is_attending);
+            String message = "";
+            if (changed) {
+                //Correctly
+                message = "{\"message\": \"La asistencia se actualizó exitosamente\"}";
+            } else {
+                // Incorrectly Inserted and does not have id
+                message = "{\"message\": \"La asistencia no se pudo actualizar\"}";
+            }
+            //response
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            out.print(message);
+        } else {
             Event event = new Event();
             event.setTitle(request.getParameter("eventName"));
             event.setDescription(request.getParameter("eventDescription"));
@@ -54,23 +72,13 @@ public class EventController extends HttpServlet {
             event.setPrice(Float.parseFloat(request.getParameter("eventPrice")));
             int attendance_limit = request.getParameter("attendance_limit") == null ? 0 : Integer.parseInt(request.getParameter("attendance_limit")); //missing in form
             event.setAttendance_limit(attendance_limit);
-            ///create event
-            Part part = request.getPart("file");
-            if (part != null) {
-                Event.EventImage event_image = new Event.EventImage();
-                event_image.setName(part.getSubmittedFileName());
-                event_image.setType(part.getContentType());
-                event_image.setSize(part.getSize());
-                event_image.setContent(part.getInputStream());
-                event.setImage(event_image);
-            }
             //save event
-            Event event_with_ids = event_dao.saveEvent(event);
+            Event saved_event = event_dao.saveEvent(event);
             Gson gson = new Gson();
             String message = "";
-            if (event_with_ids.getEvent_id() > 0) {
+            if (saved_event.getEvent_id() > 0) {
                 //Correctly
-                message = gson.toJson(event_with_ids);
+                message = gson.toJson(saved_event);
             } else {
                 // Incorrectly Inserted and does not have id
                 message = "{\"event_id\":0,\"message\": \"El evento no se puedo insertar\"}";
@@ -100,7 +108,7 @@ public class EventController extends HttpServlet {
             int attendance_limit = request.getParameter("attendance_limit") == null ? 0 : Integer.parseInt(request.getParameter("attendance_limit")); //missing in form
             event.setAttendance_limit(attendance_limit);
             ///create event
-            Part part = request.getPart("file");
+            /*Part part = request.getPart("file");
             if (part != null) {
                 Event.EventImage event_image = new Event.EventImage();
                 event_image.setName(part.getSubmittedFileName());
@@ -108,7 +116,7 @@ public class EventController extends HttpServlet {
                 event_image.setSize(part.getSize());
                 event_image.setContent(part.getInputStream());
                 event.setImage(event_image);
-            }
+            }*/
             //save event
             boolean was_successfully_updated = event_dao.updateEvent(event);
             Gson gson = new Gson();
