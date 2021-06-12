@@ -63,7 +63,7 @@ function deleteEvent(){
         title: '¿Estás seguro de borrar el evento?',
         //showDenyButton: true,
         showCancelButton: true,
-        confirmButtonText: `Borrar`,
+        confirmButtonText: `¡Evento Borrarado Exitosamente!`,
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {

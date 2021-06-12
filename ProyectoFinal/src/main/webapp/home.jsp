@@ -30,14 +30,13 @@
                         <a class="nav-link" href="home.jsp">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="users.jsp">Usuarios</a>
+                        <a class="nav-link" href="user">Usuarios</a>
                     </li>
                 </ul>
             </div>
             <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
                 &#9776;
             </button>
-            <a class="nav-link" href="#">Usuarios</a>
                 <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
                     <!-- <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li> -->
                     <li class="nav-item">
