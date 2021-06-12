@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!--Custom styles-->
     <link rel="stylesheet" type="text/css" href="loginStyle.css">
+
 </head>
 <body>
 <div class="container">
@@ -38,7 +39,7 @@
                 </div> -->
             </div>
             <div class="card-body">
-                <form method="POST" action="login">
+                <form method="POST" action="login" id="loginForm">
                     <div class="input-group form-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -56,7 +57,15 @@
                         <input type="checkbox">Remember Me
                     </div> -->
                     <div class="form-group">
-                        <input type="submit" value="${param.auth_type==1?"Iniciar sesión":"Registrar"}" class="btn float-right login_btn">
+                        <!-- <input type="submit" value="${param.auth_type==1?"Iniciar sesión":"Registrar"}" class="btn float-right login_btn"> -->
+                        <c:choose>
+                            <c:when test="${param.auth_type==1}">
+                                <input type="submit" value="Iniciar sesión" class="btn float-right login_btn">
+                            </c:when>
+                            <c:when test="${param.auth_type==2}">
+                                <input type="submit" value="Registrar" class="btn float-right login_btn" onclick="addUserFromRegister()">
+                            </c:when>
+                        </c:choose>
                     </div>
                 </form>
             </div>
@@ -74,12 +83,17 @@
                     </c:choose>
                 </div>
                 <div style="color: white">
-                    <b>${message}</b>
+                    <c:choose>
+                        <c:when test="${param.auth_type==1}">
+                            <b>${message}</b>
+                        </c:when>
+                    </c:choose>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="users.js"></script
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

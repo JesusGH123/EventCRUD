@@ -12,6 +12,7 @@ import java.util.List;
 
 public class UserDao implements IUserDao{
     final String GET_USER_And_ADMIN_INFO = "call get_user_id_and_admin_info ( ? , ? )";
+    final String GET_USER_By_ID = "SELECT * FROM user WHERE user_id = ?";
     final String CREATE_USER = "call create_user(?, ?, ?)";
     final String GET_ALL_USERS = "call get_all_users()";
     final String DELETE_USER = "call delete_user(?)";
@@ -36,11 +37,6 @@ public class UserDao implements IUserDao{
                 user.setPassword(resultSet.getString("password"));  //Not necessary
 
                 users.add(user);
-            }
-
-            for(int i = 0; i < users.size(); i++) {
-                System.out.println(users.get(i).getUsername());
-                System.out.println("El tamaño de users es: " + users.size());
             }
 
         } catch (Exception ex) {
@@ -69,6 +65,32 @@ public class UserDao implements IUserDao{
                 userResult.setUsername(user);
                 userResult.setAdmin(resultset.getBoolean("is_admin"));
                 userResult.setPassword(password);
+                return userResult;
+            }
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return null;
+    }
+
+    @Override
+    public User getUser(int user_id) {
+        User userResult = null;
+
+        try {
+            Connection connection = MySQLConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_By_ID);
+            preparedStatement.setInt(1, user_id);
+
+            ResultSet resultset = preparedStatement.executeQuery();
+
+            if(resultset.next()) {
+                userResult = new User();
+                userResult.setUser_id(resultset.getInt("user_id"));
+                userResult.setUsername(resultset.getString("username"));
+                userResult.setAdmin(resultset.getBoolean("is_admin"));
+                userResult.setPassword(resultset.getString("password"));
                 return userResult;
             }
         } catch(Exception ex) {
@@ -137,7 +159,8 @@ public class UserDao implements IUserDao{
             preparedStatement.setBoolean(3, user.isAdmin());
             preparedStatement.setString(4, user.getPassword());
 
-            if(preparedStatement.executeUpdate() == 1){
+            int updated = preparedStatement.executeUpdate();
+            if(updated == 1){
                 return true;
             }
         } catch (Exception ex) {
