@@ -42,7 +42,6 @@ async function addUserFromRegister() {
             Swal.fire(
                 'Usuario registrado!'
             )
-            //response => response.json()
         );
 }
 
