@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>Home</title>
-
+    <script src="${pageContext.servletContext.contextPath}/home.js" type="module"></script>
     <!--Made with love by Mutiullah Samim -->
     <!--Bootsrap 4 CDN-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -94,7 +94,7 @@
 
                     <div class="row px-3 mb-2">
                         <!-- <span class="sold_out">Agotado</span> -->
-                        <h4 class="dark-text mr-4" id="title_${event.event_id}">${event.title}</h4>
+                        <h4 class="dark-text mr-4" id="title_${event.event_id}"><c:out value="${event.title}" escapeXml="true" /></h4>
                         <p class="mt-1 mr-4 extended-title" id="category_${event.event_id}">${event.category}</p>
                         <span id="status_dot_${event.event_id}"></span>
                     </div>
@@ -102,16 +102,16 @@
                         <p class="mb-1"><span class="fa fa-clock-o" id="dates_${event.event_id}"> ${event.begin_date} - ${event.end_date}</span></p>
                     </div>
                     <div class="row px-3">
-                        <h6 class="green-block" onclick="moreInfo('${event.title}','${event.description}')">Mas información</h6>
+                        <h6 class="green-block" id="more_info_${event.event_id}" onclick="moreInfo('${event.title}','${event.description}')">Mas información</h6>
                     </div>
                 </div>
                 <div class="v-line ml-auto"></div>
                 <div class="price">
                     <p class="mb-0">Precio</p>
                     <div class="row px-3">
-                        <h4 class="blue-text mr-2">$${event.price}</h4>
+                        <h4 class="blue-text mr-2">$<c:out value="${event.price}" escapeXml="true" /></h4>
                     </div>
-                        <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>
+                        <i class="btn btn-orange mt-4 fas fa-trash-alt" data-i  d="${event.event_id}"></i>
                         <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
 
                 </div>
@@ -128,7 +128,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="${pageContext.servletContext.contextPath}/home.js"></script>
-    <script src="${pageContext.servletContext.contextPath}/auth_common.js   "></script>
+
+    <script src="${pageContext.servletContext.contextPath}/auth_common.js"></script>
 </body>
 </html>
