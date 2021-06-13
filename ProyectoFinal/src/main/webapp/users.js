@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded",() => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire(
-                        'Archivo Eliminado!'
+                        'Usuario Eliminado Exitosamente!'
                     )
 
                     let deleteId = event.target.getAttribute("data-id")
@@ -65,26 +65,30 @@ document.addEventListener("DOMContentLoaded",() => {
                         title: 'Editar usuario',
                         html:
                             '<form id="edit_user_form">' +
-                            '<label for="username">Nombre de usuario</label>' +
-                            `<input id="username" name="username" value=${prevent_html_injection(user.username)} type="text">` +
-                            '<label for="isAdmin">Usuario administrador</label>' +
-                            `<input id="isAdmin" name="isAdmin" type="checkbox" ${user.isAdmin ? "checked":""} >` +
-                            '<div><label for="password">Contraseña</label>' +
+                            `<label for="username">Nombre de usuario: ${user.username}</label>` +
+                            //`<input id="username" name="username" value=${prevent_html_injection(user.username)} type="text">` +
+                            '<div><label for="isAdmin">Usuario administrador</label>' +
+                            `<input id="isAdmin" name="isAdmin" type="checkbox" ${user.isAdmin ? "checked":""} ></div>` +
+                            '<label for="isAdmin">¿Cambiar Contraseña?</label>' +
+                            `<input id="changePassword" name="changePassword" type="checkbox" >`+
+                            '<div><label for="password">Nueva Contraseña: </label>' +
                             '<input name="password" id="password" type="password"></div>' +
                             '</form>',
                         confirmButtonText: 'Actualizar',
                         showCancelButton: true
                     }).then((result)=>{
                             if(result.isConfirmed){
-                                let username = document.getElementById("username");
+                                //let username = document.getElementById("username");
                                 let isAdmin = document.getElementById("isAdmin");
+                                let changePassword = document.getElementById("changePassword");
                                 let password = document.getElementById("password");
                                 let formData = new FormData();
                                 if(updateId) {
                                     //formData.append("type", "single");
                                     formData.append("user_id", updateId);
-                                    formData.append("username", username.value);
+                                    //formData.append("username", username.value);
                                     formData.append("isAdmin", isAdmin.checked);
+                                    formData.append("changePassword",changePassword.checked);
                                     formData.append("password", password.value);
 
                                     fetch('user', {
@@ -146,8 +150,14 @@ document.addEventListener("DOMContentLoaded",() => {
             ).then((response)=>{
                 console.log(response)
                 if(response.type==="repeated" || response.type==="error"){
+                    Swal.fire(response.message, '', 'error')
+                        .then(result => {
+                        })
                 }else {
-                    location.reload()
+                    Swal.fire(response.message, '', 'success')
+                        .then(result => {
+                            location.reload()
+                    })
                 }
             }).catch(error=>{
                 console.log(error)

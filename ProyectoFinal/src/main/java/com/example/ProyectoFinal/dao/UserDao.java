@@ -16,7 +16,8 @@ public class UserDao implements IUserDao{
     final String CREATE_USER = "call create_user(?, ?, ?)";
     final String GET_ALL_USERS = "call get_all_users()";
     final String DELETE_USER = "call delete_user(?)";
-    final String UPDATE_USER = "call edit_user(?, ?, ?, ?)";
+    final String UPDATE_USER_WITH_PASSWORD = "call edit_user_with_password(?, ?, ?)";
+    final String UPDATE_USER_WITHOUT_PASSWORD = "call edit_user_without_password(?,?)";
 
     final String GET_USER_By_USERNAME = "SELECT user_id FROM user WHERE username = ?";
 
@@ -112,16 +113,19 @@ public class UserDao implements IUserDao{
             ResultSet resultSet = repeatValidation.executeQuery();
 
             if(!resultSet.next()) {
-                PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER);
+                PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER,PreparedStatement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, user.getUsername());
                 preparedStatement.setBoolean(2, user.isAdmin());
-                preparedStatement.setString(3, user.getPassword());
-                preparedStatement.executeUpdate();
+
+                    preparedStatement.setString(3, user.getPassword());
+                ResultSet resultSetPost =  preparedStatement.executeQuery();
+
+                resultSetPost.next();
 
                 user.setUsername(user.getUsername());
                 user.setAdmin(user.isAdmin());
-                user.setPassword(user.getPassword());
-
+                //user.setPassword(user.getPassword());
+                user.setUser_id(resultSetPost.getInt(1));
                 //Correct result
                 return new UserAndResult(user,SaveUserResult.success);
             }
@@ -159,26 +163,23 @@ public class UserDao implements IUserDao{
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(User user,boolean changePassword) {
 
         try {
-            Connection connection = MySQLConnection.getConnection();
+            /*
             PreparedStatement repeatValidation = connection.prepareStatement(GET_USER_By_USERNAME);
             repeatValidation.setString(1, user.getUsername());
-            ResultSet resultSet = repeatValidation.executeQuery();
-
-            if(!resultSet.next()) {
-                PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
-                preparedStatement.setInt(1, user.getUser_id());
-                preparedStatement.setString(2, user.getUsername());
-                preparedStatement.setBoolean(3, user.isAdmin());
-                preparedStatement.setString(4, user.getPassword());
-
-                int updated = preparedStatement.executeUpdate();
-                if (updated == 1) {
-                    return true;
-                }
-            }
+            ResultSet resultSet = repeatValidation.executeQuery();*/
+            Connection connection = MySQLConnection.getConnection();
+            //if(!resultSet.next()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(changePassword ? UPDATE_USER_WITH_PASSWORD : UPDATE_USER_WITHOUT_PASSWORD);
+            preparedStatement.setInt(1, user.getUser_id());
+            //preparedStatement.setString(2, user.getUsername());
+            preparedStatement.setBoolean(2, user.isAdmin());
+            if(changePassword)
+                preparedStatement.setString(3, user.getPassword());
+            return preparedStatement.executeUpdate() > 0;
+           // }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

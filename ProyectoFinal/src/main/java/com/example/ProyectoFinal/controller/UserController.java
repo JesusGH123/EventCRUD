@@ -20,14 +20,19 @@ import java.util.List;
 public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
             HttpSession session = request.getSession();
+
         if(session.getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
 
         if(session.getAttribute("username") != null) {
+            request.setAttribute("isAdmin",session.getAttribute("isAdmin"));
+            request.setAttribute("username",session.getAttribute("username"));
             UserDao userDao = new UserDao();
             List<User> users = userDao.getUsers();
             request.setAttribute("users", users);
+
             request.getRequestDispatcher("WEB-INF/users.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
@@ -36,10 +41,11 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        System.out.println("doPost of user");
         if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         UserDao user_dao = new UserDao();
-        request.setCharacterEncoding("UTF-8");
         if(request.getParameter("type") !=null && request.getParameter("type").equals("single")) {
             int user_id = request.getParameter("updateId") == "" ? 0 : Integer.parseInt(request.getParameter("updateId"));
             User user = user_dao.getUser(user_id);
@@ -61,7 +67,7 @@ public class UserController extends HttpServlet {
             if(user_got.getUser_id() > 0) {
                 message = gson.toJson(user_got);
             } else {
-                message = user_with_ids.getResult() == SaveUserResult.error ? "{ \"message\": \"El usuario no se pudo agregar por un error interno\" , \"type\":\"error\" }":"{ \"message\": \"El nombre de usuario ya está tomado, eliga otro\",\"type\":\"repeated\" }" ;
+                message = user_with_ids.getResult() == SaveUserResult.error ? "{ \"message\": \"El usuario no se pudo agregar por un error interno\" , \"type\":\"error\" }":"{ \"message\": \"El nombre de usuario ya está tomado, elija otro\",\"type\":\"repeated\" }" ;
             }
 
             response.setContentType("application/json");
@@ -72,22 +78,23 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         try {
-            String username = request.getParameter("username");
+            //String username = request.getParameter("username");
             String isAdmin = request.getParameter("isAdmin");
+            boolean changePassword = Boolean.parseBoolean(request.getParameter("changePassword"));
             String password = request.getParameter("password");
             String userId = request.getParameter("user_id");
 
             User user = new User();
             user.setUser_id(Integer.parseInt(userId));
-            user.setUsername(username);
+            //user.setUsername(username);
             user.setAdmin(Boolean.parseBoolean(isAdmin));
             user.setPassword(password);
-
             UserDao userDao = new UserDao();
-            boolean wasUpdated = userDao.updateUser(user);
+            boolean wasUpdated = userDao.updateUser(user,changePassword);
             Gson gson = new Gson();
             String message = "";
             if (wasUpdated) {
@@ -106,6 +113,7 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         int id = request.getParameter("deleteId") == "" ? 0 : Integer.parseInt(request.getParameter("deleteId"));

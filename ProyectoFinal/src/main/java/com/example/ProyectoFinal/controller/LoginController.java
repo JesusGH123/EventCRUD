@@ -2,6 +2,7 @@ package com.example.ProyectoFinal.controller;
 
 import com.example.ProyectoFinal.dao.UserDao;
 import com.example.ProyectoFinal.model.User;
+import com.google.gson.Gson;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,8 +13,11 @@ import java.io.PrintWriter;
 @MultipartConfig
 @WebServlet(name = "login", value = "/login")
 public class LoginController extends HttpServlet {
+
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         String type = request.getParameter("type");
         if(type!=null && type.equals("logout")) {
@@ -21,7 +25,7 @@ public class LoginController extends HttpServlet {
                 session.invalidate();
                 response.setContentType("application/json");
                 PrintWriter out = response.getWriter();
-                String message = "{\"message\": \"Cerra sesión exitoso\"}";
+                String message = "{\"message\": \"Cerrar sesión exitoso\"}";
                 out.print(message);
                 //request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
                 System.out.println("logout finished");

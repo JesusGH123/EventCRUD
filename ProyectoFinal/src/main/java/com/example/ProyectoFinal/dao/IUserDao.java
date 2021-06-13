@@ -10,5 +10,5 @@ public interface IUserDao {
     User getUser(int user_id);
     UserAndResult saveUser(User user);
     boolean deleteUser(int user_id);
-    boolean updateUser(User user);
+    boolean updateUser(User user,boolean changePassword);
 }

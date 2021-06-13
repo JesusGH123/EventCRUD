@@ -44,7 +44,8 @@
                 <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle"><li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li></button>
             <ul class="dropdown-menu dropdown-menu-right mt-2">
                 <li class="px-3 py-2">
-                    <div>Username: Mike</div>
+                    <div><c:out value="Username: ${username}"/></div>
+                    <c:out value="${isAdmin?'¡Eres Admin!':''}"/>
                     <button onclick="logout()"><i class="fas fa-sign-out-alt"><a>Cerrar Sesión</a></i></button>
                 </li>
             </ul>

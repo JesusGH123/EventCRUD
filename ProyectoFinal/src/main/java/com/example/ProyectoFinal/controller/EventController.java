@@ -20,6 +20,7 @@ import java.util.List;
 public class EventController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         System.out.println("doGet event");
         if(session.getAttribute("username")!=null){
@@ -28,6 +29,10 @@ public class EventController extends HttpServlet {
             EventDao event_dao = new EventDao();
             List<Event> events = event_dao.getEvents();
             request.setAttribute("events",events);
+            System.out.println( session.getAttribute("isAdmin"));
+            request.setAttribute("isAdmin",session.getAttribute("isAdmin"));
+            request.setAttribute("username",session.getAttribute("username"));
+            //out.print(isAdmin ? "{\"isAdmin\": '\"true\"}":"{\"isAdmin\": '\"false\"}");
             request.getRequestDispatcher("WEB-INF/home.jsp").forward(request,response);
         }else
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request,response);
@@ -35,8 +40,8 @@ public class EventController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EventDao event_dao = new EventDao();
         request.setCharacterEncoding("UTF-8");
+        EventDao event_dao = new EventDao();
         if(request.getParameter("type") !=null && request.getParameter("type").equals("single")){
             int event_id =  request.getParameter("event_id") == null ? 0 : Integer.parseInt(request.getParameter("event_id"));
             Event event = event_dao.getEvent(event_id);
@@ -96,12 +101,12 @@ public class EventController extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //super.doPut(req, resp);
+        request.setCharacterEncoding("UTF-8");
         if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         try {
             EventDao event_dao = new EventDao();
             System.out.println("do put");
-            request.setCharacterEncoding("UTF-8");
             Event event = new Event();
             event.setEvent_id(Integer.parseInt(request.getParameter("event_id")));
             event.setTitle(request.getParameter("eventName"));
@@ -143,6 +148,7 @@ public class EventController extends HttpServlet {
     }
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         if(req.getSession().getAttribute("isAdmin")==null || !(boolean)req.getSession().getAttribute("isAdmin"))
             req.getRequestDispatcher("WEB-INF/login.jsp").forward(req, resp);
         //super.doDelete(req, resp);

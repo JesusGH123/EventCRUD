@@ -29,9 +29,11 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="event">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user">Usuarios</a>
-                    </li>
+                    <c:if test="${isAdmin}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="user">Usuarios</a>
+                        </li>
+                    </c:if>
                 </ul>
             </div>
             <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar">
@@ -45,7 +47,8 @@
                         <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle"><li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li></button>
                         <ul class="dropdown-menu dropdown-menu-right mt-2">
                             <li class="px-3 py-2">
-                                <div>Username: Mike</div>
+                                <div><c:out value="Username: ${username}"/></div>
+                                <c:out value="${isAdmin?'¡Eres Admin!':''}"/>
                                 <button onclick="logout()"><i class="fas fa-sign-out-alt"><a>Cerrar Sesión</a></i></button>
                                 <!--<form class="form" role="form">
                                     <div class="form-group">
@@ -102,7 +105,7 @@
                         <p class="mb-1"><span class="fa fa-clock-o" id="dates_${event.event_id}"> ${event.begin_date} - ${event.end_date}</span></p>
                     </div>
                     <div class="row px-3">
-                        <h6 class="green-block" id="more_info_${event.event_id}" onclick="moreInfo('${event.title}','${event.description}')">Mas información</h6>
+                        <h6 class="green-block" data-id="${event.event_id}" id="more_info_${event.event_id}" onclick="moreInfo('${event.title}','${event.description}')">Mas información</h6>
                     </div>
                 </div>
                 <div class="v-line ml-auto"></div>
@@ -111,19 +114,21 @@
                     <div class="row px-3">
                         <h4 class="blue-text mr-2">$<c:out value="${event.price}" escapeXml="true" /></h4>
                     </div>
-                        <i class="btn btn-orange mt-4 fas fa-trash-alt" data-i  d="${event.event_id}"></i>
-                        <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
-
+                        <c:if test="${isAdmin}">
+                            <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>
+                            <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
+                        </c:if>
                 </div>
 
             </div>
         </c:forEach>
     </div>
-
-    <!-- Floating button -->
-    <a href="#" class="float" id ="add_button">
-        <i class="fa fa-plus my-float"></i>
-    </a>
+    <c:if test="${isAdmin}">
+        <!-- Floating button -->
+        <a href="#" class="float" id ="add_button">
+            <i class="fa fa-plus my-float"></i>
+        </a>
+    </c:if>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
