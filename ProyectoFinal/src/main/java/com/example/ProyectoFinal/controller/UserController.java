@@ -13,28 +13,33 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "UserController", value = "/user")
+@WebServlet(name = "user", value = "/user")
 @MultipartConfig
 public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+            HttpSession session = request.getSession();
+        if(session.getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
 
-        //if(session.getAttribute("user") != null) {
+        if(session.getAttribute("username") != null) {
             UserDao userDao = new UserDao();
             List<User> users = userDao.getUsers();
             request.setAttribute("users", users);
-            request.getRequestDispatcher("users.jsp").forward(request, response);
-        //} else
-            //request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/users.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         UserDao user_dao = new UserDao();
         request.setCharacterEncoding("UTF-8");
         if(request.getParameter("type") !=null && request.getParameter("type").equals("single")) {
-            int user_id = request.getParameter("updateId") == "" ? 0 : Integer.parseInt(request.getParameter("UpdateId"));
+            int user_id = request.getParameter("updateId") == "" ? 0 : Integer.parseInt(request.getParameter("updateId"));
             User user = user_dao.getUser(user_id);
             Gson gson = new GsonBuilder().create();
             response.setContentType("application/json");
@@ -54,7 +59,7 @@ public class UserController extends HttpServlet {
             if(user_with_ids.getUser_id() > 0) {
                 message = gson.toJson(user_with_ids);
             } else {
-                message = "{ \"mensaje\": \"El usuario no se modificó\" }";
+                message = "{ \"message\": \"El usuario no agregó\" }";
             }
 
             response.setContentType("application/json");
@@ -65,6 +70,8 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         try {
             String username = request.getParameter("username");
             String isAdmin = request.getParameter("isAdmin");
@@ -82,9 +89,9 @@ public class UserController extends HttpServlet {
             Gson gson = new Gson();
             String message = "";
             if (wasUpdated) {
-                message = "{ \"mensaje\": \"El usuario se modificó correctamente\" }";
+                message = "{ \"message\": \"El usuario se modificó correctamente\" }";
             } else {
-                message = "{ \"mensaje\": \"El usuario no se modificó\" }";
+                message = "{ \"message\": \"El usuario no se modificó\" }";
             }
             //response
             response.setContentType("application/json");
@@ -97,12 +104,14 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         int id = request.getParameter("deleteId") == "" ? 0 : Integer.parseInt(request.getParameter("deleteId"));
         UserDao userDao = new UserDao();
         boolean wasDeleted = userDao.deleteUser(id);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        String message = wasDeleted ? "{\"message\": \"Borrar exitoso\"}" : "{\"message\": \"Borrar falló\"}";
+        String message = wasDeleted ? "{\"message\": \"Borrado exitoso\"}" : "{\"message\": \"Borrado falló\"}";
         out.print(message);
     }
 }

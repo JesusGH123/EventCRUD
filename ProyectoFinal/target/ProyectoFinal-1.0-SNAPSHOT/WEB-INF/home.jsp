@@ -17,7 +17,7 @@
     <!--Fontawesome CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!--Custom style-->
-    <link rel="stylesheet" type="text/css" href="homeStyle.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/homeStyle.css">
 </head>
 <body>
     <!-- Navbar -->
@@ -27,7 +27,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="home.jsp">Home<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="event">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="user">Usuarios</a>
@@ -46,7 +46,7 @@
                         <ul class="dropdown-menu dropdown-menu-right mt-2">
                             <li class="px-3 py-2">
                                 <div>Username: Mike</div>
-                                <i class="fas fa-sign-out-alt"></i>
+                                <button onclick="logout()"><i class="fas fa-sign-out-alt"><a>Cerrar Sesión</a></i></button>
                                 <!--<form class="form" role="form">
                                     <div class="form-group">
                                         <input id="emailInput" placeholder="Email" class="form-control form-control-sm" type="text" required="">
@@ -86,7 +86,6 @@
             </div>
         </div>
     </div>
-
     <!-- List -->
     <div class="container-fluid px-1 px-sm-4 py-5 mx-auto">
         <c:forEach items="${events}" var="event" varStatus="loop">
@@ -112,8 +111,9 @@
                     <div class="row px-3">
                         <h4 class="blue-text mr-2">$${event.price}</h4>
                     </div>
-                    <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>
-                    <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
+                        <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>
+                        <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
+
                 </div>
 
             </div>
@@ -128,6 +128,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="home.js"></script>
+    <script src="${pageContext.servletContext.contextPath}/home.js"></script>
+    <script src="${pageContext.servletContext.contextPath}/auth_common.js   "></script>
 </body>
 </html>

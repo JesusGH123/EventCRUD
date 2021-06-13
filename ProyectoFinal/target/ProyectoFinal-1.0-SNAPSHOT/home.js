@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded",()=> {
                     '<div><label for="eventEndHour">Hora de cierre del evento</label>' +
                     `<input id="eventEndHour" type="time" name="eventEndHour" ${event?`value=${end_time}`:""}></div>` +
                     '<label for="eventPrice">Precio del evento</label>' +
-                    `<input id="eventPrice" type="number" name="eventPrice" ${event ?`value=${event.price}`:""}>` +
+                    `<input id="eventPrice" type="number" name="eventPrice" ${event ?`value=${event.price}`:""}>`
                     /*'<div><label for="eventImage">Imagen de evento</label>' +
                     '<input id="eventImage" name="eventImage" type="file"></div>'*/
                     + '</form>',
@@ -88,13 +88,14 @@ document.addEventListener("DOMContentLoaded",()=> {
                 console.log(`in span dates: ${start_date_in} ${end_date_in}`)
                 let description = document.getElementById("eventDescription").value
                 let title = document.getElementById("eventName").value
+                console.log('description',description,'title',title)
                 if(
                     //! /^\d{1,10}(\.\d{1,2})?$/.test(document.getElementById("eventPrice"))
                     !start_date_in || !end_date_in ||
                     start_date_in > end_date_in  || start_date_in <= new Date()
                     || !description || /^\s*$/.test(description)
                     || !title || /^\s*$/.test(title)
-                )
+                ) //improve validation
                 {
                     Swal.fire('Llena todos los campos de la manera correcta', '', 'error')
                 }else {
@@ -108,7 +109,8 @@ document.addEventListener("DOMContentLoaded",()=> {
                         , body: formData
                     });
                     let response = await post_result.json();
-                    Swal.fire(response.message, '', 'success')
+                    let result = await Swal.fire(response.message, '', 'success')
+                    location.reload()
                 }
             }
             //console.log(formData)
@@ -151,7 +153,7 @@ document.addEventListener("DOMContentLoaded",()=> {
                 title: '¿Estás seguro de borrar el evento?',
                 //showDenyButton: true,
                 showCancelButton: true,
-                confirmButtonText: `¡Evento Borrarado Exitosamente!`,
+                confirmButtonText: `Borrar`,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
@@ -162,14 +164,21 @@ document.addEventListener("DOMContentLoaded",()=> {
                         method: 'DELETE'
                         , body: formData
                     }).then(response => response.json())
-                        .then(response => Swal.fire(response.message, '', 'success'))
+                        .then(response => Swal.fire(response.message, '', 'success').then(isconfirmed=>{location.reload()}))
                         .catch(error => console.log(error))
                 } else if (result.isDenied) {
                 }
             })
         })
     });
+    /*document.getElementById("logout_button", ()=>{
+        console.log('logout')
+        fetch('login',{
+            method:'DELETE'
+        })
+    })*/
 });
+
 function moreInfo(title,description) {
     Swal.fire({
         title: title,
@@ -181,3 +190,11 @@ function moreInfo(title,description) {
     })
 }
 
+
+function getPage(){
+    console.log('getPage')
+    return
+    fetch('event',{
+        method:'GET'
+    })
+}

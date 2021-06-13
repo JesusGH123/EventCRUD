@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Jesus
@@ -17,7 +16,7 @@
     <!--Fontawesome CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!-- Custom style -->
-    <link rel="stylesheet" href="users.css">
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/users.css">
 </head>
 <body>
 <!-- Navbar -->
@@ -27,10 +26,10 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="home.jsp">Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="event">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="users.jsp">Usuarios</a>
+                    <a class="nav-link" href="user">Usuarios</a>
                 </li>
             </ul>
         </div>
@@ -46,7 +45,7 @@
             <ul class="dropdown-menu dropdown-menu-right mt-2">
                 <li class="px-3 py-2">
                     <div>Username: Mike</div>
-                    <i class="fas fa-sign-out-alt"></i>
+                    <button onclick="logout()"><i class="fas fa-sign-out-alt"><a>Cerrar Sesión</a></i></button>
                 </li>
             </ul>
             </li>
@@ -80,6 +79,7 @@
         <tr>
             <th scope="col">Id</th>
             <th scope="col">Usuario</th>
+            <th scope="col">Rol Especial</th>
             <th scope="col">Opciones</th>
         </tr>
         </thead>
@@ -88,6 +88,7 @@
             <tr>
                 <td scope="row">${i.index + 1}</td>
                 <td><i class="fas fa-user"></i>${user.username}</td>
+                <td scope="row"><c:out value="${user.admin? 'Admin' : ''}"/></td>
                 <td>
                     <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${user.user_id}"></i>
                     <i class="btn btn-orange mt-4 fas fa-edit" data-id=${user.user_id}></i>
@@ -102,7 +103,8 @@
     <i class="fa fa-plus my-float"></i>
 </a>
 
-<script src="users.js"></script>
+<script src="${pageContext.servletContext.contextPath}/users.js"></script>
+<script src="${pageContext.servletContext.contextPath}/auth_common.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

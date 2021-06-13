@@ -28,9 +28,9 @@ public class EventController extends HttpServlet {
             EventDao event_dao = new EventDao();
             List<Event> events = event_dao.getEvents();
             request.setAttribute("events",events);
-            request.getRequestDispatcher("home.jsp").forward(request,response);
+            request.getRequestDispatcher("WEB-INF/home.jsp").forward(request,response);
         }else
-            request.getRequestDispatcher("login.jsp").forward(request,response);
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request,response);
     }
 
     @Override
@@ -44,8 +44,9 @@ public class EventController extends HttpServlet {
             response.setContentType("application/json");
             PrintWriter out = response.getWriter();
             out.print(gson.toJson(event));
-
         }else if (request.getParameter("type")!=null && request.getParameter("type").equals("change_assistance")){
+            if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+                request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
             int event_id =  request.getParameter("event_id") == null ? 0 : Integer.parseInt(request.getParameter("event_id"))
                     ,user_id = request.getParameter("user_id") == null ? 0 : Integer.parseInt(request.getParameter("user_id"));
             boolean is_attending = request.getParameter("is_attending") == null ? false : Boolean.parseBoolean("is_attending");
@@ -63,6 +64,8 @@ public class EventController extends HttpServlet {
             PrintWriter out = response.getWriter();
             out.print(message);
         } else {
+            if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+                request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
             Event event = new Event();
             event.setTitle(request.getParameter("eventName"));
             event.setDescription(request.getParameter("eventDescription"));
@@ -93,6 +96,8 @@ public class EventController extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //super.doPut(req, resp);
+        if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         try {
             EventDao event_dao = new EventDao();
             System.out.println("do put");
@@ -138,6 +143,8 @@ public class EventController extends HttpServlet {
     }
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if(req.getSession().getAttribute("isAdmin")==null || !(boolean)req.getSession().getAttribute("isAdmin"))
+            req.getRequestDispatcher("WEB-INF/login.jsp").forward(req, resp);
         //super.doDelete(req, resp);
         int event_id = req.getParameter("event_id") == null || req.getParameter("event_id") == "" ? 0 : Integer.parseInt(req.getParameter("event_id"));
         System.out.println(event_id);

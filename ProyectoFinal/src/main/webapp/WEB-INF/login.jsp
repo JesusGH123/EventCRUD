@@ -1,7 +1,6 @@
 
 <!------ Include the above in your HEAD tag ---------->
 
-<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
@@ -14,7 +13,7 @@
     <!--Fontawesome CDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!--Custom styles-->
-    <link rel="stylesheet" type="text/css" href="loginStyle.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/loginStyle.css">
 
 </head>
 <body>
@@ -23,14 +22,7 @@
         <div class="card">
             <div class="card-header">
                 <h3>
-                    <c:choose>
-                        <c:when test="${param.auth_type==1}">
-                            Iniciar sesión
-                        </c:when>
-                        <c:when test="${param.auth_type==2}">
-                            Registrar
-                        </c:when>
-                    </c:choose>
+                    Iniciar sesión
                 </h3>
                 <!-- <div class="d-flex justify-content-end social_icon">
                     <span><i class="fab fa-facebook-square"></i></span>
@@ -57,43 +49,19 @@
                         <input type="checkbox">Remember Me
                     </div> -->
                     <div class="form-group">
-                        <!-- <input type="submit" value="${param.auth_type==1?"Iniciar sesión":"Registrar"}" class="btn float-right login_btn"> -->
-                        <c:choose>
-                            <c:when test="${param.auth_type==1}">
-                                <input type="submit" value="Iniciar sesión" class="btn float-right login_btn">
-                            </c:when>
-                            <c:when test="${param.auth_type==2}">
-                                <input type="submit" value="Registrar" class="btn float-right login_btn" onclick="addUserFromRegister()">
-                            </c:when>
-                        </c:choose>
+                        <input type="submit" value="Iniciar sesión" class="btn float-right login_btn">
                     </div>
                 </form>
             </div>
             <div class="card-footer">
-                <div class="d-flex justify-content-center links">
-                    <c:choose>
-                        <c:when test="${param.auth_type==1}" >
-                            ¿No tienes cuenta?
-                            <a href="?auth_type=2">Registrarme</a>
-                        </c:when>
-                        <c:when test="${param.auth_type==2}">
-                            ¿Ya tienes cuenta?
-                            <a href="?auth_type=1">Iniciar sesión</a>
-                        </c:when>
-                    </c:choose>
-                </div>
                 <div style="color: white">
-                    <c:choose>
-                        <c:when test="${param.auth_type==1}">
-                            <b>${message}</b>
-                        </c:when>
-                    </c:choose>
+                    <b>${message}</b>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="users.js"></script
+<script src="${pageContext.servletContext.contextPath}/login.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
