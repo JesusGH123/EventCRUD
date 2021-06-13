@@ -111,7 +111,7 @@
                     <div class="row px-3">
                         <h4 class="blue-text mr-2">$<c:out value="${event.price}" escapeXml="true" /></h4>
                     </div>
-                        <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>
+                        <i class="btn btn-orange mt-4 fas fa-trash-alt" data-i  d="${event.event_id}"></i>
                         <i class="btn btn-orange mt-4 fas fa-edit" data-id="${event.event_id}"></i>
 
                 </div>

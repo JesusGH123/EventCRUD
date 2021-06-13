@@ -99,11 +99,11 @@
     </table>
 </div>
 <!-- Floating button -->
-<a href="#" class="float" onclick="addUser()">
+<a id="addBtn" href="#" class="float">
     <i class="fa fa-plus my-float"></i>
 </a>
 
-<script src="${pageContext.servletContext.contextPath}/users.js"></script>
+<script src="${pageContext.servletContext.contextPath}/users.js" type="module"></script>
 <script src="${pageContext.servletContext.contextPath}/auth_common.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

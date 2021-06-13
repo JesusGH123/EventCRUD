@@ -18,6 +18,8 @@ public class UserDao implements IUserDao{
     final String DELETE_USER = "call delete_user(?)";
     final String UPDATE_USER = "call edit_user(?, ?, ?, ?)";
 
+    final String GET_USER_By_USERNAME = "SELECT user_id FROM user WHERE username = ?";
+
     @Override
     public List<User> getUsers() {
         User user = null;
@@ -49,7 +51,7 @@ public class UserDao implements IUserDao{
     @Override
     public User getUser(String user, String password) {
 
-        User userResult=null;
+        User userResult = null;
 
         try {
             Connection connection = MySQLConnection.getConnection();
@@ -101,28 +103,36 @@ public class UserDao implements IUserDao{
     }
 
     @Override
-    public User saveUser(User user) {
+    public UserAndResult saveUser(User user) {
 
         try {
             Connection connection = MySQLConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER);
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setBoolean(2, user.isAdmin());
-            preparedStatement.setString(3, user.getPassword());
+            PreparedStatement repeatValidation = connection.prepareStatement(GET_USER_By_USERNAME);
+            repeatValidation.setString(1, user.getUsername());
+            ResultSet resultSet = repeatValidation.executeQuery();
 
-            preparedStatement.executeUpdate();
+            if(!resultSet.next()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER);
+                preparedStatement.setString(1, user.getUsername());
+                preparedStatement.setBoolean(2, user.isAdmin());
+                preparedStatement.setString(3, user.getPassword());
+                preparedStatement.executeUpdate();
 
-            user.setUsername(user.getUsername());
-            user.setAdmin(user.isAdmin());
-            user.setPassword(user.getPassword());
+                user.setUsername(user.getUsername());
+                user.setAdmin(user.isAdmin());
+                user.setPassword(user.getPassword());
 
-            return user;
+                //Correct result
+                return new UserAndResult(user,SaveUserResult.success);
+            }
 
+            return new UserAndResult(user,SaveUserResult.repeated);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
-        return null;
+        //Error
+        return new UserAndResult(user,SaveUserResult.error);
     }
 
     @Override
@@ -153,15 +163,21 @@ public class UserDao implements IUserDao{
 
         try {
             Connection connection = MySQLConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
-            preparedStatement.setInt(1, user.getUser_id());
-            preparedStatement.setString(2, user.getUsername());
-            preparedStatement.setBoolean(3, user.isAdmin());
-            preparedStatement.setString(4, user.getPassword());
+            PreparedStatement repeatValidation = connection.prepareStatement(GET_USER_By_USERNAME);
+            repeatValidation.setString(1, user.getUsername());
+            ResultSet resultSet = repeatValidation.executeQuery();
 
-            int updated = preparedStatement.executeUpdate();
-            if(updated == 1){
-                return true;
+            if(!resultSet.next()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER);
+                preparedStatement.setInt(1, user.getUser_id());
+                preparedStatement.setString(2, user.getUsername());
+                preparedStatement.setBoolean(3, user.isAdmin());
+                preparedStatement.setString(4, user.getPassword());
+
+                int updated = preparedStatement.executeUpdate();
+                if (updated == 1) {
+                    return true;
+                }
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

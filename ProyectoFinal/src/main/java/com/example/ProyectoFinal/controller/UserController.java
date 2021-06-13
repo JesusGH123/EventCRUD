@@ -1,5 +1,7 @@
 package com.example.ProyectoFinal.controller;
 
+import com.example.ProyectoFinal.dao.SaveUserResult;
+import com.example.ProyectoFinal.dao.UserAndResult;
 import com.example.ProyectoFinal.dao.UserDao;
 import com.example.ProyectoFinal.model.User;
 import com.google.gson.Gson;
@@ -52,14 +54,14 @@ public class UserController extends HttpServlet {
             user.setPassword(request.getParameter("password"));
 
             UserDao userDao = new UserDao();
-            User user_with_ids = userDao.saveUser(user);
+            UserAndResult user_with_ids = userDao.saveUser(user);
             Gson gson = new Gson();
             String message = "";
-
-            if(user_with_ids.getUser_id() > 0) {
-                message = gson.toJson(user_with_ids);
+            User user_got = user_with_ids.getUser();
+            if(user_got.getUser_id() > 0) {
+                message = gson.toJson(user_got);
             } else {
-                message = "{ \"message\": \"El usuario no agregó\" }";
+                message = user_with_ids.getResult() == SaveUserResult.error ? "{ \"message\": \"El usuario no se pudo agregar por un error interno\" , \"type\":\"error\" }":"{ \"message\": \"El nombre de usuario ya está tomado, eliga otro\",\"type\":\"repeated\" }" ;
             }
 
             response.setContentType("application/json");

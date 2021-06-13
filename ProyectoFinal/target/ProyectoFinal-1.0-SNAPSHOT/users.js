@@ -1,37 +1,4 @@
-async function addUser() {
-    try {
-        let result = await Swal.fire({
-            title: 'Nuevo usuario',
-            html:
-                '<form id="new_user_form">' +
-                '<label for="username">Nombre de usuario</label>' +
-                '<input id="username" name="username" type="text">' +
-                '<label for="isAdmin">Usuario administrador</label>' +
-                '<input id="isAdmin" name="isAdmin" type="checkbox" value="true">' +
-                '<div><label for="password">Contraseña</label>' +
-                '<input name="password" id="password" type="password"></div>' +
-                '</form>',
-            confirmButtonText: 'Guardar',
-            showCancelButton: true
-        });
-        let formData = new FormData();
-        formData.append("username", document.getElementById("username").value);
-        formData.append("isAdmin", document.getElementById("isAdmin").checked);
-        formData.append("password", document.getElementById("password").value);
-        await fetch('user',{
-            method:'POST'
-            ,body:formData
-        }).then(
-            (response) => {
-                response.json()
-                location.reload()
-            }
-        );
-
-    }catch(error){
-        console.log(error)
-    }
-}
+import {prevent_html_injection} from './commonjs/code_injection_avoidance.js';
 
 async function addUserFromRegister() {
         let formData = new FormData(document.getElementById("loginForm"));
@@ -98,8 +65,8 @@ document.addEventListener("DOMContentLoaded",() => {
                         title: 'Editar usuario',
                         html:
                             '<form id="edit_user_form">' +
-                            '<label for="username">Nombre de <usuar></usuar>io</label>' +
-                            `<input id="username" name="username" value=${user.username} type="text">` +
+                            '<label for="username">Nombre de usuario</label>' +
+                            `<input id="username" name="username" value=${prevent_html_injection(user.username)} type="text">` +
                             '<label for="isAdmin">Usuario administrador</label>' +
                             `<input id="isAdmin" name="isAdmin" type="checkbox" ${user.isAdmin ? "checked":""} >` +
                             '<div><label for="password">Contraseña</label>' +
@@ -148,6 +115,47 @@ document.addEventListener("DOMContentLoaded",() => {
                 .catch(error=>console.log('error:',error))
 
         })
+    })
+
+    document.getElementById("addBtn").addEventListener("click",async function addUser() {
+        try {
+            let result = await Swal.fire({
+                title: 'Nuevo usuario',
+                html:
+                    '<form id="new_user_form">' +
+                    '<label for="username">Nombre de usuario</label>' +
+                    '<input id="username" name="username" type="text">' +
+                    '<label for="isAdmin">Usuario administrador</label>' +
+                    '<input id="isAdmin" name="isAdmin" type="checkbox" value="true">' +
+                    '<div><label for="password">Contraseña</label>' +
+                    '<input name="password" id="password" type="password"></div>' +
+                    '</form>',
+                confirmButtonText: 'Guardar',
+                showCancelButton: true
+            });
+            let formData = new FormData();
+            formData.append("username", document.getElementById("username").value);
+            formData.append("isAdmin", document.getElementById("isAdmin").checked);
+            formData.append("password", document.getElementById("password").value);
+            await fetch('user',{
+                method:'POST'
+                ,body:formData
+            }).then(
+                (response) =>
+                    response.json()
+            ).then((response)=>{
+                console.log(response)
+                if(response.type==="repeated" || response.type==="error"){
+                }else {
+                    location.reload()
+                }
+            }).catch(error=>{
+                console.log(error)
+            });
+
+        }catch(error){
+            console.log(error)
+        }
     })
 })
 /*< div
