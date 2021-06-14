@@ -88,7 +88,7 @@
         <c:forEach items="${users}" var="user" varStatus="i">
             <tr>
                 <td scope="row">${i.index + 1}</td>
-                <td><i class="fas fa-user"></i>${user.username}</td>
+                <td><i class="fas fa-user"></i><c:out value="${user.username}" escapeXml="true"/></td>
                 <td scope="row"><c:out value="${user.admin? 'Admin' : ''}"/></td>
                 <td>
                     <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${user.user_id}"></i>

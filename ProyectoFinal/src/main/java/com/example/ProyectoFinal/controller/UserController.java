@@ -43,8 +43,8 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         System.out.println("doPost of user");
-        if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
-            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
+        /*if(request.getSession().getAttribute("isAdmin")==null || !(boolean)request.getSession().getAttribute("isAdmin"))
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);*/
         UserDao user_dao = new UserDao();
         if(request.getParameter("type") !=null && request.getParameter("type").equals("single")) {
             int user_id = request.getParameter("updateId") == "" ? 0 : Integer.parseInt(request.getParameter("updateId"));
@@ -67,7 +67,7 @@ public class UserController extends HttpServlet {
             if(user_got.getUser_id() > 0) {
                 message = gson.toJson(user_got);
             } else {
-                message = user_with_ids.getResult() == SaveUserResult.error ? "{ \"message\": \"El usuario no se pudo agregar por un error interno\" , \"type\":\"error\" }":"{ \"message\": \"El nombre de usuario ya está tomado, elija otro\",\"type\":\"repeated\" }" ;
+                message = user_with_ids.getResult() == SaveUserResult.error ? "{ \"message\": \"El usuario no se pudo agregar por un error interno\" , \"type\":\"error\" }":"{ \"message\": \"El nombre de usuario ya esta tomado, elija otro\",\"type\":\"repeated\" }" ;
             }
 
             response.setContentType("application/json");
@@ -98,9 +98,9 @@ public class UserController extends HttpServlet {
             Gson gson = new Gson();
             String message = "";
             if (wasUpdated) {
-                message = "{ \"message\": \"El usuario se modificó correctamente\" }";
+                message = "{ \"message\": \"El usuario se modifico correctamente\" }";
             } else {
-                message = "{ \"message\": \"El usuario no se modificó\" }";
+                message = "{ \"message\": \"El usuario no se modifico\" }";
             }
             //response
             response.setContentType("application/json");

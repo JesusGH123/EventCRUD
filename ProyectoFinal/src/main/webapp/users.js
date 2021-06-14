@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded",() => {
                         title: 'Editar usuario',
                         html:
                             '<form id="edit_user_form">' +
-                            `<label for="username">Nombre de usuario: ${user.username}</label>` +
+                            `<label for="username">Nombre de usuario: ${prevent_html_injection(user.username)}</label>` +
                             //`<input id="username" name="username" value=${prevent_html_injection(user.username)} type="text">` +
                             '<div><label for="isAdmin">Usuario administrador</label>' +
                             `<input id="isAdmin" name="isAdmin" type="checkbox" ${user.isAdmin ? "checked":""} ></div>` +
@@ -83,32 +83,39 @@ document.addEventListener("DOMContentLoaded",() => {
                                 let changePassword = document.getElementById("changePassword");
                                 let password = document.getElementById("password");
                                 let formData = new FormData();
-                                if(updateId) {
-                                    //formData.append("type", "single");
-                                    formData.append("user_id", updateId);
-                                    //formData.append("username", username.value);
-                                    formData.append("isAdmin", isAdmin.checked);
-                                    formData.append("changePassword",changePassword.checked);
-                                    formData.append("password", password.value);
+                                if(changePassword.checked && password.value.replace(' ','')===''){
+                                    Swal.fire('La contraseña esta vacia', '', 'error')
+                                        .then(result => {
 
-                                    fetch('user', {
-                                        method: 'PUT',
-                                        body: formData
-                                    }).then(
-                                        response => response.json()
-                                    ).then(
-                                        response => {
-                                            Swal.fire(response.message, '', 'success')
-                                                .then(result => {
-                                                    location.reload()
-                                                })
-                                            //document.getElementById("password").value = response.password;
-                                            //document.getElementById("username").value = response.username;
-                                            //document.getElementById("isAdmin").checked = response.isAdmin;
-                                        }
-                                    ).catch(
-                                        error => console.log('error:', error)
-                                    )
+                                        })
+                                }else {
+                                    if (updateId) {
+                                        //formData.append("type", "single");
+                                        formData.append("user_id", updateId);
+                                        //formData.append("username", username.value);
+                                        formData.append("isAdmin", isAdmin.checked);
+                                        formData.append("changePassword", changePassword.checked);
+                                        formData.append("password", password.value);
+
+                                        fetch('user', {
+                                            method: 'PUT',
+                                            body: formData
+                                        }).then(
+                                            response => response.json()
+                                        ).then(
+                                            response => {
+                                                Swal.fire(response.message, '', 'success')
+                                                    .then(result => {
+                                                        location.reload()
+                                                    })
+                                                //document.getElementById("password").value = response.password;
+                                                //document.getElementById("username").value = response.username;
+                                                //document.getElementById("isAdmin").checked = response.isAdmin;
+                                            }
+                                        ).catch(
+                                            error => console.log('error:', error)
+                                        )
+                                    }
                                 }
                             }
                         })
@@ -137,32 +144,41 @@ document.addEventListener("DOMContentLoaded",() => {
                 confirmButtonText: 'Guardar',
                 showCancelButton: true
             });
-            let formData = new FormData();
-            formData.append("username", document.getElementById("username").value);
-            formData.append("isAdmin", document.getElementById("isAdmin").checked);
-            formData.append("password", document.getElementById("password").value);
-            await fetch('user',{
-                method:'POST'
-                ,body:formData
-            }).then(
-                (response) =>
-                    response.json()
-            ).then((response)=>{
-                console.log(response)
-                if(response.type==="repeated" || response.type==="error"){
-                    Swal.fire(response.message, '', 'error')
+            if(result.isConfirmed) {
+                let formData = new FormData();
+                let username = document.getElementById("username").value
+                let password = document.getElementById("password").value
+                if(username.replace(' ','')==='' || password.replace(' ','')==='') {
+                    Swal.fire('El usuario o contraseña estan vacios', '', 'error')
                         .then(result => {
                         })
                 }else {
-                    Swal.fire(response.message, '', 'success')
-                        .then(result => {
-                            location.reload()
-                    })
+                    formData.append("username", username);
+                    formData.append("isAdmin", document.getElementById("isAdmin").checked);
+                    formData.append("password", password);
+                    await fetch('user', {
+                        method: 'POST'
+                        , body: formData
+                    }).then(
+                        (response) =>
+                            response.json()
+                    ).then((response) => {
+                        console.log(response)
+                        if (response.type === "repeated" || response.type === "error") {
+                            Swal.fire(response.message, '', 'error')
+                                .then(result => {
+                                })
+                        } else {
+                            Swal.fire(response.message, '', 'success')
+                                .then(result => {
+                                    location.reload()
+                                })
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                    });
                 }
-            }).catch(error=>{
-                console.log(error)
-            });
-
+            }
         }catch(error){
             console.log(error)
         }

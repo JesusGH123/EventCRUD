@@ -112,7 +112,7 @@
                 <div class="price">
                     <p class="mb-0">Precio</p>
                     <div class="row px-3">
-                        <h4 class="blue-text mr-2">$<c:out value="${event.price}" escapeXml="true" /></h4>
+                        <h4 class="blue-text mr-2"><c:out value="${event.price==0?'Gratis':'$'.concat(event.price)}" escapeXml="true" /></h4>
                     </div>
                         <c:if test="${isAdmin}">
                             <i class="btn btn-orange mt-4 fas fa-trash-alt" data-id="${event.event_id}"></i>

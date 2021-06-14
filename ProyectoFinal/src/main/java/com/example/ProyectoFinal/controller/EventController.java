@@ -23,6 +23,8 @@ public class EventController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         System.out.println("doGet event");
+        if(session.getAttribute("isAdmin")==null || !(boolean)session.getAttribute("isAdmin"))
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         if(session.getAttribute("username")!=null){
             System.out.println("user is logged in");
             //List<Event> events = eventDao
@@ -59,7 +61,7 @@ public class EventController extends HttpServlet {
             String message = "";
             if (changed) {
                 //Correctly
-                message = "{\"message\": \"La asistencia se actualizó exitosamente\"}";
+                message = "{\"message\": \"La asistencia se actualizo exitosamente\"}";
             } else {
                 // Incorrectly Inserted and does not have id
                 message = "{\"message\": \"La asistencia no se pudo actualizar\"}";
@@ -158,7 +160,7 @@ public class EventController extends HttpServlet {
         boolean wasDeleted = event_dao.deleteEvent(event_id);
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        String message = wasDeleted ? "{\"message\": \"Borrar exitoso\"}" : "{\"message\": \"Borrar falló\"}";
+        String message = wasDeleted ? "{\"message\": \"Borrar exitoso\"}" : "{\"message\": \"Borrar fallo\"}";
         out.print(message);
     }
 }

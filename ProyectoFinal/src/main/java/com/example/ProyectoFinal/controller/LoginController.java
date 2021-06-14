@@ -19,13 +19,14 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
+
         String type = request.getParameter("type");
         if(type!=null && type.equals("logout")) {
             try {
                 session.invalidate();
                 response.setContentType("application/json");
                 PrintWriter out = response.getWriter();
-                String message = "{\"message\": \"Cerrar sesión exitoso\"}";
+                String message = "{\"message\": \"Cerrar sesion exitoso\"}";
                 out.print(message);
                 //request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
                 System.out.println("logout finished");

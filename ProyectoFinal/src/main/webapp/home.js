@@ -106,7 +106,9 @@ document.addEventListener("DOMContentLoaded",()=> {
                 let title = document.getElementById("eventName").value
                 let price = document.getElementById("eventPrice").value
                 console.log('description',description,'title',title)
-                let date_regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+                let date_regex = /^\d{4}-\d{2}-\d{2} \d{2}(:\d{2}(:\d{2})?)?$/;
+                //console.log('djlk')
+                //console.log('first date regex result:',date_regex.test(start_date_str),'second data regex result:',date_regex.test(end_date_str))
                 if(
                     !/^\d+(\.\d{1,2})?$/.test(price) ||
                     !date_regex.test(start_date_str) || !date_regex.test(end_date_str)
